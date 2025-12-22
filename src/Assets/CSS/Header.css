@@ -1,33 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-decoration: none;
-  border: none;
-  outline: none;
-  scroll-behavior: smooth;
-  font-family: 'Poppins', sans-serif;
-
-}
-
-:root{
-    --bg-color: #081b29;
-    --second-bg-color: #112e42;
-    --text-color: #ededed;
-    --main-color: #00abf0;
-    --accent-color: #00ff88;
-}
-
-html{
-    font-size: 62.5%;
-    overflow-x: hidden;
-}
-
-body{
-    background: var(--bg-color);
-    color: var(--text-color);
-
-}
+/* Header-specific styles */
+/* Global variables are imported via index.css */
 
 .header {
   position: fixed;
@@ -37,7 +9,7 @@ body{
   padding: 2rem 9%;
   background: rgba(10, 25, 47, 0.85); /* --bg-color */
   backdrop-filter: blur(12px);
-  box-shadow: 0 4px 24px rgba(0,171,240,0.08);
+  box-shadow: 0 4px 24px rgba(0, 171, 240, 0.08);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -47,8 +19,14 @@ body{
 }
 
 @keyframes fadeInDown {
-  0% { opacity: 0; transform: translateY(-40px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .logo {
@@ -56,11 +34,11 @@ body{
   color: var(--main-color);
   font-weight: 700;
   letter-spacing: 1px;
-  text-shadow: 0 2px 8px rgba(0,171,240,0.08);
+  text-shadow: 0 2px 8px rgba(0, 171, 240, 0.08);
 }
 
 .navbar {
-    position: relative;
+  position: relative;
 }
 
 .navbar .a {
@@ -68,15 +46,25 @@ body{
   color: var(--text-color);
   font-weight: 500;
   margin-left: 3.5rem;
-  transition: color 0.3s, border-bottom 0.3s;
+  transition:
+    color 0.3s,
+    border-bottom 0.3s;
   cursor: pointer;
   position: relative;
   padding-bottom: 2px;
 }
 
 .navbar .a:hover,
-.navbar .a.active {
+.navbar .a.active,
+.navbar .a:focus {
   color: var(--main-color);
+  outline: none;
+}
+
+.navbar .a:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
 }
 
 .navbar .a::after {
@@ -96,115 +84,135 @@ body{
   width: 100%;
 }
 
-#menu-icon {
+#menu-icon,
+.menu-toggle {
   font-size: 3.6rem;
   color: var(--main-color);
   cursor: pointer;
   display: none;
   transition: color 0.3s;
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  line-height: 1;
 }
-#menu-icon:hover {
+
+#menu-icon:hover,
+.menu-toggle:hover {
   color: var(--main-color);
+  opacity: 0.8;
+}
+
+#menu-icon:focus,
+.menu-toggle:focus {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+#menu-icon:focus-visible,
+.menu-toggle:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
 }
 
 .animate {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-color);
-    z-index: 98;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-color);
+  z-index: 98;
 }
 
 .logo .animate,
 .navbar .animate,
 #menu-icon .animate {
-    animation: showRight 1s ease forwards;
-    animation-delay: calc(.3s * var(--i));
+  animation: showRight 1s ease forwards;
+  animation-delay: calc(0.3s * var(--i));
 }
 
-
 @media (max-width: 1200px) {
-    html {
-        font-size: 55%;
-    }
+  html {
+    font-size: 55%;
+  }
 }
 
 @media (max-width: 991px) {
-    .header {
-        padding: 2rem 4%;
-    }
+  .header {
+    padding: 2rem 4%;
+  }
 }
 
 @media (max-width: 768px) {
-    .header {
-        background: rgba(10, 25, 47, 0.95);
-    }
+  .header {
+    background: rgba(10, 25, 47, 0.95);
+  }
 
-    #menu-icon {
-        display: block;
-    }
+  #menu-icon {
+    display: block;
+  }
 
-    .navbar {
-        position: absolute;
-        top: 100%;
-        left: -100%;
-        width: 100%;
-        z-index: 1;
-        padding: 1rem 4%;
-        background: rgba(10, 25, 47, 0.98); /* --bg-color */
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
-        transition: .25s ease;
-        transition-delay: .25s;
-    }
+  .navbar {
+    position: absolute;
+    top: 100%;
+    left: -100%;
+    width: 100%;
+    z-index: 1;
+    padding: 1rem 4%;
+    background: rgba(10, 25, 47, 0.98); /* --bg-color */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    transition: 0.25s ease;
+    transition-delay: 0.25s;
+  }
 
-    .navbar.active {
-        left: 0;
-        transition-delay: 0s;
-    }
+  .navbar.active {
+    left: 0;
+    transition-delay: 0s;
+  }
 
-    .navbar .active-nav {
-        position: absolute;
-        left: -100%;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--bg-color);
-        border-top: .1rem solid rgba(0, 0, 0, .2);
-        z-index: -1;
-        transition: .25s ease;
-        transition-delay: 0s;
-    }
+  .navbar .active-nav {
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
+    z-index: -1;
+    transition: 0.25s ease;
+    transition-delay: 0s;
+  }
 
-    .navbar.activev .active-nav {
-        left: 0;
-        transition-delay: .25s;
-    }
+  .navbar.active .active-nav {
+    left: 0;
+    transition-delay: 0.25s;
+  }
 
-    .navbar .a {
-        display: block;
-        font-size: 2rem;
-        margin: 3rem 0;
-        transform: translateX(-20rem);
-        transition: .25s ease;
-        transition-delay: 0s;
-    }
+  .navbar .a {
+    display: block;
+    font-size: 2rem;
+    margin: 3rem 0;
+    transform: translateX(-20rem);
+    transition: 0.25s ease;
+    transition-delay: 0s;
+  }
 
-    .navbar.active .a {
-        transform: translateX(0);
-        transition-delay: .25s;
-    }
+  .navbar.active .a {
+    transform: translateX(0);
+    transition-delay: 0.25s;
+  }
 }
 
 @media (max-width: 520px) {
-    html {
-        font-size: 50%;
-    }
+  html {
+    font-size: 50%;
+  }
 }
 
 @keyframes showRight {
-    100% {
-        width: 0;
-    }
+  100% {
+    width: 0;
+  }
 }

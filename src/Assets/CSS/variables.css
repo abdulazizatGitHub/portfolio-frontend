@@ -1,0 +1,26 @@
+/* Global CSS Variables for Portfolio */
+/* Single source of truth for all color and design tokens */
+
+:root {
+  /* Primary Colors */
+  --bg-color: #081b29;
+  --second-bg-color: #112e42;
+  --text-color: #ededed;
+  --main-color: #00abf0;
+  --accent-color: #00ff88;
+
+  /* Additional Colors */
+  --muted-text: #b2becd;
+  --success-color: #4caf50;
+  --button-gradient: linear-gradient(90deg, #00abf0 0%, #a259ff 100%);
+
+  /* Typography */
+  --font-family: 'Poppins', sans-serif;
+
+  /* Spacing */
+  --section-padding: 10rem 9% 2rem;
+
+  /* Transitions */
+  --transition-speed: 0.3s;
+  --transition-ease: ease;
+}

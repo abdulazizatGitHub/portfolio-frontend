@@ -1,11 +1,13 @@
 import '../Assets/CSS/Project.css';
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
+import useFadeOnScroll from '../hooks/useFadeOnScroll';
 
 const projects = [
   {
     title: 'Laboratory Management System',
-    description: 'Full-stack web application with role-based authentication for Admin, Staff, and Patients. Features include CRUD operations for inventory, lab users, and secure JWT authentication with scalable architecture.',
+    description:
+      'Full-stack web application with role-based authentication for Admin, Staff, and Patients. Features include CRUD operations for inventory, lab users, and secure JWT authentication with scalable architecture.',
     tech: ['React', 'Node.js', 'MongoDB', 'JWT'],
     link: 'https://laboratory-management-system.vercel.app/',
     image: require('../Assets/Images/LMS.png'),
@@ -13,7 +15,8 @@ const projects = [
   },
   {
     title: 'E-Commerce Platform',
-    description: 'Full-stack e-commerce application with product browsing, cart management, checkout flow, and comprehensive admin panel. Implemented RESTful APIs and structured database design for scalability.',
+    description:
+      'Full-stack e-commerce application with product browsing, cart management, checkout flow, and comprehensive admin panel. Implemented RESTful APIs and structured database design for scalability.',
     tech: ['MERN Stack', 'REST APIs', 'Firebase'],
     link: '',
     image: require('../Assets/Images/E-Commerce.png'),
@@ -21,7 +24,8 @@ const projects = [
   },
   {
     title: 'IoT Intrusion Detection System',
-    description: 'Designed Dynamic Class-Weighted GAN (DCSW-GAN) to address class imbalance in IoT intrusion detection. Implemented log-based adaptive loss weighting strategy achieving improved minority-class recall on UNSW-NB15 and CICIDS-2017 datasets.',
+    description:
+      'Designed Dynamic Class-Weighted GAN (DCSW-GAN) to address class imbalance in IoT intrusion detection. Implemented log-based adaptive loss weighting strategy achieving improved minority-class recall on UNSW-NB15 and CICIDS-2017 datasets.',
     tech: ['PyTorch', 'Deep Learning', 'GANs', 'Python'],
     link: '',
     image: require('../Assets/Images/IDS.png'),
@@ -29,7 +33,8 @@ const projects = [
   },
   {
     title: 'Virtual Try-On System',
-    description: 'Deep learning-based virtual outfit try-on system using CP-VTON for realistic clothing simulation. Implemented image segmentation and computer vision techniques for accurate fitting visualization.',
+    description:
+      'Deep learning-based virtual outfit try-on system using CP-VTON for realistic clothing simulation. Implemented image segmentation and computer vision techniques for accurate fitting visualization.',
     tech: ['PyTorch', 'OpenCV', 'Computer Vision', 'Python'],
     link: '',
     image: require('../Assets/Images/VTryon.png'),
@@ -37,7 +42,8 @@ const projects = [
   },
   {
     title: 'PantryMind',
-    description: 'AI-powered pantry and recipe management platform using NLP for ingredient parsing and ML-based recommendation system for personalized recipe generation and meal planning.',
+    description:
+      'AI-powered pantry and recipe management platform using NLP for ingredient parsing and ML-based recommendation system for personalized recipe generation and meal planning.',
     tech: ['Python', 'Flask', 'NLP', 'ML'],
     link: '',
     image: require('../Assets/Images/PantryMind.png'),
@@ -45,34 +51,15 @@ const projects = [
   },
 ];
 
-function useFadeOnScroll(ref) {
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(node);
-    return () => observer.unobserve(node);
-  }, [ref]);
-  return isVisible ? 'fade-in' : 'fade-out';
-}
-
 function Project() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const projectRefs = useRef([]);
 
-  const sectionClass = useFadeOnScroll(sectionRef);
-  const headingClass = useFadeOnScroll(headingRef);
+  const sectionClass = useFadeOnScroll(sectionRef, 0.2);
+  const headingClass = useFadeOnScroll(headingRef, 0.2);
 
-  const [cardVisibilities, setCardVisibilities] = useState(
-    Array(projects.length).fill(false)
-  );
+  const [cardVisibilities, setCardVisibilities] = useState(Array(projects.length).fill(false));
 
   useEffect(() => {
     projectRefs.current = projectRefs.current.slice(0, projects.length);
@@ -100,63 +87,80 @@ function Project() {
   }, []);
 
   return (
-    <section className={`projects ${sectionClass}`} id="projects" ref={sectionRef}>
+    <section
+      className={`projects ${sectionClass}`}
+      id="projects"
+      ref={sectionRef}
+      aria-label="Projects portfolio section"
+    >
       <h2 className={`section-title ${headingClass}`} ref={headingRef}>
         My <span>Projects</span>
       </h2>
-      
-      <div className="projects-grid">
+
+      <div className="projects-grid" role="list">
         {projects.map((project, idx) => (
-          <div
+          <article
             key={idx}
             className={`project-card ${cardVisibilities[idx] ? 'fade-in' : 'fade-out'}`}
-            ref={el => (projectRefs.current[idx] = el)}
+            ref={(el) => (projectRefs.current[idx] = el)}
+            role="listitem"
           >
             <div className="project-image-container">
-              <img src={project.image} alt={project.title} className="project-img" />
-              <div className="project-overlay">
-                <div className="overlay-links">
+              <img
+                src={project.image}
+                alt={`${project.title} project screenshot`}
+                className="project-img"
+                loading="lazy"
+              />
+              <div className="project-overlay" aria-hidden="true">
+                <div
+                  className="overlay-links"
+                  role="group"
+                  aria-label={`${project.title} project links`}
+                >
                   {project.link && project.link !== '' && project.link !== '#' && (
-                    <a 
-                      href={project.link} 
-                      className="overlay-btn" 
-                      target="_blank" 
+                    <a
+                      href={project.link}
+                      className="overlay-btn"
+                      target="_blank"
                       rel="noopener noreferrer"
-                      title="Live Demo"
+                      aria-label={`View ${project.title} live demo (opens in new tab)`}
                     >
-                      <FaExternalLinkAlt />
+                      <FaExternalLinkAlt aria-hidden="true" />
                     </a>
                   )}
                   {project.source && project.source !== '#' && (
-                    <a 
-                      href={project.source} 
-                      className="overlay-btn" 
-                      target="_blank" 
+                    <a
+                      href={project.source}
+                      className="overlay-btn"
+                      target="_blank"
                       rel="noopener noreferrer"
-                      title="View Code"
+                      aria-label={`View ${project.title} source code on GitHub (opens in new tab)`}
                     >
-                      <FaGithub />
+                      <FaGithub aria-hidden="true" />
                     </a>
                   )}
                 </div>
               </div>
             </div>
-            
+
             <div className="project-info">
               <h3 className="project-title">{project.title}</h3>
               <p className="project-desc">{project.description}</p>
-              
-              <div className="project-tech-tags">
+
+              <div className="project-tech-tags" role="list" aria-label="Technologies used">
                 {project.tech.map((tech, i) => (
-                  <span className="tech-tag" key={i}>{tech}</span>
+                  <span className="tech-tag" key={i} role="listitem">
+                    {tech}
+                  </span>
                 ))}
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>
   );
 }
 
-export default Project;
+export default React.memo(Project);

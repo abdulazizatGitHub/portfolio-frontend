@@ -1,203 +1,182 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    border: none;
-    outline: none;
-    scroll-behavior: smooth;
-    font-family: 'Poppins', sans-serif;
+/* About-specific styles */
+/* Global variables are imported via index.css */
+
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  background-color: var(--second-bg-color);
+  padding-bottom: 6rem;
+  min-height: 100vh; /* Ensure section is visible */
 }
 
-:root{
-    --bg-color: #081b29;
-    --second-bg-color: #112e42;
-    --text-color: #ededed;
-    --main-color: #00abf0;
+.heading {
+  position: relative;
+  font-size: 5rem;
+  margin-bottom: 3rem;
+  text-align: center;
 }
 
-html{
-    font-size: 62.5%;
-    overflow-x: hidden;
+span {
+  color: var(--main-color);
 }
 
-body{
-    background: var(--bg-color);
-    color: var(--text-color);
+.about-img {
+  position: relative;
+  height: 25rem;
+  width: 25rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.about{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    background-color: var(--second-bg-color);
-    padding-bottom: 6rem;
-    min-height: 100vh; /* Ensure section is visible */
+.about-img img {
+  width: 90%;
+  border-radius: 50%;
+  border: 0.2rem solid var(--main-color);
 }
 
-.heading{
-    position: relative;
-    font-size: 5rem;
-    margin-bottom: 3rem;
-    text-align: center;
+.about-img .circle-spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border-top: 0.2rem solid var(--second-bg-color);
+  border-bottom: 0.2rem solid var(--second-bg-color);
+  border-left: 0.2rem solid var(--main-color);
+  border-right: 0.2rem solid var(--main-color);
+  animation: aboutSpinner 8s linear infinite;
 }
 
-span{
-    color: var(--main-color);
+.about-content {
+  text-align: center;
+  max-width: 800px;
+  padding: 0 2rem;
 }
 
-.about-img{
-    position: relative;
-    height: 25rem;
-    width: 25rem;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.about-content h3 {
+  position: relative;
+  display: inline-block;
+  font-size: 2.6rem;
+  margin-bottom: 2rem;
 }
 
-.about-img img{
-    width: 90%;
-    border-radius: 50%;
-    border: .2rem solid  var(--main-color);
-}
-
-.about-img .circle-spin{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0);
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border-top: .2rem solid var(--second-bg-color);
-    border-bottom: .2rem solid var(--second-bg-color);
-    border-left: .2rem solid var(--main-color);
-    border-right: .2rem solid var(--main-color);
-    animation: aboutSpinner 8s linear infinite;
-}
-
-.about-content{
-    text-align: center;
-    max-width: 800px;
-    padding: 0 2rem;
-}
-
-.about-content h3{
-    position: relative;
-    display: inline-block;
-    font-size: 2.6rem;  
-    margin-bottom: 2rem;
-}
-
-.about-content p{
-    position: relative;
-    font-size: 1.6rem;
-    margin: 2rem 0;
-    line-height: 1.6;
+.about-content p {
+  position: relative;
+  font-size: 1.6rem;
+  margin: 2rem 0;
+  line-height: 1.6;
 }
 
 .about-stats {
-    display: flex;
-    justify-content: center;
-    gap: 4rem;
-    margin-top: 3rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
 }
 
 .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .stat-number {
-    font-size: 3rem;
-    font-weight: bold;
-    color: var(--main-color);
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--main-color);
 }
 
 .stat-label {
-    font-size: 1.4rem;
-    margin-top: 0.5rem;
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
 }
 
 /* Fade animations */
 .fade-in {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
 }
 
 .fade-out {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
 }
 
 /* Add some delay for staggered animation */
 .about-img.fade-in {
-    transition-delay: 0.2s;
+  transition-delay: 0.2s;
 }
 
 .about-content.fade-in {
-    transition-delay: 0.4s;
+  transition-delay: 0.4s;
 }
 
 .about-content h3.fade-in {
-    transition-delay: 0.6s;
+  transition-delay: 0.6s;
 }
 
 .about-content p.fade-in {
-    transition-delay: 0.8s;
+  transition-delay: 0.8s;
 }
 
 .about-stats.fade-in {
-    transition-delay: 1s;
+  transition-delay: 1s;
 }
 
 @media (max-width: 1200px) {
-    html {
-        font-size: 55%;
-    }
+  html {
+    font-size: 55%;
+  }
 }
 
 @media (max-width: 991px) {
-    section {
-        padding: 10rem 4% 2rem;
-    }
+  section {
+    padding: 10rem 4% 2rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .about-stats {
-        gap: 2rem;
-    }
-    
-    .stat-number {
-        font-size: 2.5rem;
-    }
+  .about-stats {
+    gap: 2rem;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+  }
 }
 
 @media (max-width: 520px) {
-    html {
-        font-size: 50%;
-    }
-    
-    .about-img {
-        height: 20rem;
-        width: 20rem;
-    }
-    
-    .about-stats {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+  html {
+    font-size: 50%;
+  }
+
+  .about-img {
+    height: 20rem;
+    width: 20rem;
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }
 
 @keyframes aboutSpinner {
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

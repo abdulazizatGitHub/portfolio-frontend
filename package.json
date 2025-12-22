@@ -1,8 +1,27 @@
 {
   "name": "portfolio",
-  "version": "0.1.0",
+  "version": "2.0.0",
+  "description": "Modern portfolio website for AI/ML Engineer and Full-Stack Developer",
   "private": true,
   "homepage": ".",
+  "author": {
+    "name": "Abdul Aziz",
+    "email": "abdulazizk1430@gmail.com",
+    "url": "https://github.com/abdulazizatGitHub"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abdulazizatGitHub/MyPortfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "react",
+    "ai-ml",
+    "full-stack",
+    "developer",
+    "web-development"
+  ],
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -10,6 +29,7 @@
     "boxicons": "^2.1.4",
     "dotenv": "^16.3.1",
     "node-modules": "^1.0.1",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
@@ -19,17 +39,36 @@
     "swiper": "^11.2.10",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.7.4"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false --coverage",
+    "test:watch": "react-scripts test",
+    "test:ci": "react-scripts test --watchAll=false --coverage --ci",
+    "lint": "eslint . --ext .js,.jsx",
+    "lint:fix": "eslint . --ext .js,.jsx --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css,md}\"",
+    "analyze": "npm run build && npx source-map-explorer 'build/static/js/*.js'",
+    "prepare": "husky install",
+    "precommit": "lint-staged",
     "eject": "react-scripts eject",
     "vercel-build": "npm install && react-scripts build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,md,json}": [
+      "prettier --write"
     ]
   },
   "browserslist": {
@@ -43,5 +82,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 }
