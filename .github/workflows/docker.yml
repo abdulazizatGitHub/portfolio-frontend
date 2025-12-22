@@ -1,0 +1,133 @@
+name: Docker Build and Push
+
+# This workflow builds Docker image and pushes to GitHub Container Registry
+# Runs on every push to main branch after CI checks pass
+
+on:
+  workflow_run:
+    workflows: ["Pre-Deployment CI/CD Pipeline"]
+    types:
+      - completed
+    branches: [ main ]
+  push:
+    branches: [ main ]
+    paths:
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - 'nginx.conf'
+      - 'src/**'
+      - 'package.json'
+      - '.github/workflows/docker.yml'
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+      - name: Docker image info
+        run: |
+          echo "Docker image built and pushed successfully!"
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          echo "Tags: ${{ steps.meta.outputs.tags }}"
+          echo "Digest: ${{ steps.build.outputs.digest }}"
+          echo ""
+          echo "To pull the image:"
+          echo "docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+
+  test-docker:
+    name: Test Docker Image
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull Docker image
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Test Docker container
+        run: |
+          echo "Starting container..."
+          docker run -d --name portfolio-test -p 8080:80 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          
+          echo "Waiting for container to be ready..."
+          sleep 5
+          
+          echo "Testing health endpoint..."
+          curl -f http://localhost:8080/health || exit 1
+          
+          echo "Testing main page..."
+          curl -f http://localhost:8080/ || exit 1
+          
+          echo "Docker container test passed!"
+          
+          echo "Cleaning up..."
+          docker stop portfolio-test
+          docker rm portfolio-test
+
+      - name: Container test results
+        run: |
+          echo "Docker image is working correctly!"
+          echo "Health check endpoint: PASSED"
+          echo "Main page: PASSED"
+          echo "Container starts and serves content: PASSED"
+

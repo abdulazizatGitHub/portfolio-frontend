@@ -2,6 +2,12 @@
 
 A modern, responsive portfolio website showcasing my work as an AI/ML Engineer and Full-Stack Developer. Built with React, featuring smooth animations, accessibility compliance, and optimized performance.
 
+## 🌐 Live Demo
+
+**Visit the live portfolio**: [https://abdulaziz-eta.vercel.app/](https://abdulaziz-eta.vercel.app/)
+
+The portfolio is automatically deployed on Vercel and updates on every push to the `main` branch.
+
 ## 🚀 Features
 
 - **Modern Design**: Clean, professional UI with smooth scroll animations
@@ -31,8 +37,10 @@ A modern, responsive portfolio website showcasing my work as an AI/ML Engineer a
 - **Build Tool**: Create React App
 - **Code Quality**: ESLint, Prettier
 - **Git Hooks**: Husky, lint-staged
-- **CI/CD**: GitHub Actions
-- **Deployment**: Vercel
+- **CI/CD**: GitHub Actions (automated pipeline)
+- **Deployment**: Vercel (automatic)
+- **Containerization**: Docker, Docker Compose
+- **Container Registry**: GitHub Container Registry (GHCR)
 
 ## 📦 Installation
 
@@ -209,6 +217,12 @@ MyPortfolio/
 ├── .prettierignore             # Files ignored by Prettier
 ├── CONTRIBUTING.md             # Contribution guidelines and standards
 ├── SECURITY.md                 # Security policy and best practices
+├── DOCKER.md                   # Docker deployment guide
+├── DEPLOYMENT.md               # Complete deployment guide and CI/CD pipeline
+├── Dockerfile                  # Multi-stage Docker build configuration
+├── docker-compose.yml          # Docker Compose configuration
+├── nginx.conf                  # Nginx server configuration for production
+├── .dockerignore               # Files ignored by Docker build
 ├── package.json                # Project dependencies, scripts, and metadata
 ├── package-lock.json           # Locked dependency versions
 ├── README.md                   # This file - project documentation
@@ -311,26 +325,50 @@ Optimizations implemented:
 
 ## 🔄 CI/CD Pipeline
 
-### Pre-Deployment Checks
+### Automated Workflow
 
-Before every Vercel deployment, GitHub Actions runs:
+The complete CI/CD pipeline runs automatically on every push to `main`:
 
-1. **Linting**: ESLint validation
-2. **Formatting**: Prettier validation
-3. **Tests**: Jest test suite with coverage
-4. **Security**: npm audit for vulnerabilities
-5. **Build**: Verifies production build succeeds
+1. **Code Quality** (`ci.yml`):
+   - ✅ ESLint validation
+   - ✅ Prettier formatting check
+   - ✅ Jest test suite with coverage
+   - ✅ Security audit (npm audit)
+   - ✅ Production build verification
+   - ✅ Docker build test
 
-**Result**: Only high-quality code gets deployed to production.
+2. **Docker Pipeline** (`docker.yml`):
+   - ✅ Builds Docker image
+   - ✅ Pushes to GitHub Container Registry (GHCR)
+   - ✅ Tests Docker container
+   - ✅ Health check validation
+
+3. **Vercel Deployment**:
+   - ✅ Automatic deployment after all checks pass
+   - ✅ Live at: [https://abdulaziz-eta.vercel.app/](https://abdulaziz-eta.vercel.app/)
+
+**Result**: Only high-quality, tested code gets deployed to production.
 
 ### Workflow Files
 
-- `.github/workflows/ci.yml`: Main CI/CD pipeline (runs on push to main)
+- `.github/workflows/ci.yml`: Main CI/CD pipeline (code quality, tests, build)
+- `.github/workflows/docker.yml`: Docker image build and push to GHCR
 - `.github/workflows/deploy.yml`: Deployment verification workflow
+- `.github/workflows/complete-pipeline.yml`: Master orchestration workflow
+
+### Docker Image Registry
+
+Docker images are automatically pushed to GitHub Container Registry:
+
+- **Registry**: `ghcr.io/abdulazizatGitHub/MyPortfolio`
+- **Tags**: `latest`, `main`, `main-<sha>`
+- **Pull command**: `docker pull ghcr.io/abdulazizatGitHub/MyPortfolio:latest`
 
 ## 🚢 Deployment
 
 ### Vercel Deployment
+
+**Live URL**: [https://abdulaziz-eta.vercel.app/](https://abdulaziz-eta.vercel.app/)
 
 The project is configured for automatic deployment on Vercel:
 
@@ -385,6 +423,64 @@ This project is private and proprietary. All rights reserved.
 - React Icons for the icon library
 - React Testing Library for testing utilities
 - All open-source contributors
+
+## 🐳 Docker Deployment
+
+### Build Docker Image
+
+```bash
+npm run docker:build
+```
+
+Or manually:
+
+```bash
+docker build -t portfolio:latest .
+```
+
+### Run Docker Container
+
+```bash
+npm run docker:run
+```
+
+Or manually:
+
+```bash
+docker run -p 3000:80 portfolio:latest
+```
+
+The app will be available at [http://localhost:3000](http://localhost:3000)
+
+### Docker Compose
+
+Start with docker-compose:
+
+```bash
+npm run docker:dev
+```
+
+Stop the container:
+
+```bash
+npm run docker:stop
+```
+
+### Docker Benefits
+
+- ✅ **Consistent Environment**: Same environment across dev, staging, production
+- ✅ **Easy Deployment**: Deploy anywhere Docker runs (AWS, Azure, GCP, etc.)
+- ✅ **Isolation**: No conflicts with system dependencies
+- ✅ **Scalability**: Easy to scale with orchestration tools
+- ✅ **Production Ready**: Optimized multi-stage build with Nginx
+
+### Docker Image Details
+
+- **Base Image**: Node 18 Alpine (lightweight)
+- **Build Stage**: Compiles React app
+- **Production Stage**: Serves with Nginx (optimized for static files)
+- **Size**: ~50MB (alpine-based, minimal)
+- **Port**: 80 (configurable)
 
 ---
 
