@@ -71,7 +71,7 @@ jobs:
         run: npm run vercel-build
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: build/
@@ -81,7 +81,7 @@ jobs:
         run: |
           BUILD_SIZE=$(du -sh build | cut -f1)
           echo "Build size: $BUILD_SIZE"
-          echo "✅ Build successful - Ready for Vercel deployment"
+          echo "Build successful - Ready for Vercel deployment"
 
   security:
     name: Security Audit
