@@ -10,6 +10,59 @@ import {
 import '../Assets/CSS/Contact.css';
 import useFadeOnScroll from '../hooks/useFadeOnScroll';
 
+// ===========================
+// CONTACT PAGE CONTENT CONFIG
+// ===========================
+
+const CONTACT_TEXT = {
+  heading: {
+    prefix: 'Get In',
+    highlight: 'Touch',
+  },
+  subtitle: "Let's discuss your project and build something amazing together!",
+  infoTitle: 'Contact Information',
+  infoDescription: 'Feel free to reach out to me through any of the following channels:',
+  successTitle: 'Thank You!',
+  successMessage: "Your message has been sent successfully. I'll get back to you soon!",
+};
+
+const CONTACT_INFO_ITEMS = [
+  {
+    id: 'email',
+    icon: FaEnvelope,
+    label: 'Email',
+    value: 'abdulazizk1430@gmail.com',
+    href: 'mailto:abdulazizk1430@gmail.com',
+  },
+  {
+    id: 'phone',
+    icon: FaPhone,
+    label: 'Phone',
+    value: '+92 341 6988051',
+    href: 'tel:+923416988051',
+  },
+  {
+    id: 'location',
+    icon: FaMapMarkerAlt,
+    label: 'Location',
+    value: 'G15 Islamabad, Pakistan',
+    href: null,
+  },
+];
+
+const SOCIAL_LINKS = [
+  {
+    id: 'linkedin',
+    icon: FaLinkedin,
+    href: 'https://www.linkedin.com/in/abdulaziz-dev/',
+  },
+  {
+    id: 'github',
+    icon: FaGithub,
+    href: 'https://github.com/abdulazizatGitHub',
+  },
+];
+
 function Contact() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
@@ -100,70 +153,51 @@ function Contact() {
   return (
     <section className={`contact ${sectionClass}`} id="contact" ref={sectionRef}>
       <h2 ref={headingRef} className={`heading ${headingClass}`}>
-        Get In <span>Touch</span>
+        {CONTACT_TEXT.heading.prefix} <span>{CONTACT_TEXT.heading.highlight}</span>
       </h2>
 
-      <p className="contact-subtitle">
-        Let's discuss your project and build something amazing together!
-      </p>
+      <p className="contact-subtitle">{CONTACT_TEXT.subtitle}</p>
 
       <div className="contact-container">
         {/* Contact Information */}
         <div ref={infoRef} className={`contact-info ${infoClass}`}>
-          <h3>Contact Information</h3>
-          <p>Feel free to reach out to me through any of the following channels:</p>
+          <h3>{CONTACT_TEXT.infoTitle}</h3>
+          <p>{CONTACT_TEXT.infoDescription}</p>
 
           <div className="contact-info-items">
-            <div className="contact-info-item">
-              <div className="contact-icon">
-                <FaEnvelope />
-              </div>
-              <div className="contact-details">
-                <h4>Email</h4>
-                <a href="mailto:abdulazizk1430@gmail.com">abdulazizk1430@gmail.com</a>
-              </div>
-            </div>
-
-            <div className="contact-info-item">
-              <div className="contact-icon">
-                <FaPhone />
-              </div>
-              <div className="contact-details">
-                <h4>Phone</h4>
-                <a href="tel:+923416988051">+92 341 6988051</a>
-              </div>
-            </div>
-
-            <div className="contact-info-item">
-              <div className="contact-icon">
-                <FaMapMarkerAlt />
-              </div>
-              <div className="contact-details">
-                <h4>Location</h4>
-                <span>G15 Islamabad, Pakistan</span>
-              </div>
-            </div>
+            {CONTACT_INFO_ITEMS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div className="contact-info-item" key={item.id}>
+                  <div className="contact-icon">
+                    <Icon />
+                  </div>
+                  <div className="contact-details">
+                    <h4>{item.label}</h4>
+                    {item.href ? <a href={item.href}>{item.value}</a> : <span>{item.value}</span>}
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           <div className="social-links">
             <h4>Follow Me</h4>
             <div className="social-icons">
-              <a
-                href="https://www.linkedin.com/in/abdulaziz-dev/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-link"
-              >
-                <FaLinkedin />
-              </a>
-              <a
-                href="https://github.com/abdulazizatGitHub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-link"
-              >
-                <FaGithub />
-              </a>
+              {SOCIAL_LINKS.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-link"
+                  >
+                    <Icon />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -173,8 +207,8 @@ function Contact() {
           {isSubmitted ? (
             <div className="success-message">
               <div className="success-icon">✓</div>
-              <h3>Thank You!</h3>
-              <p>Your message has been sent successfully. I'll get back to you soon!</p>
+              <h3>{CONTACT_TEXT.successTitle}</h3>
+              <p>{CONTACT_TEXT.successMessage}</p>
               <button onClick={() => setIsSubmitted(false)} className="btn btn-secondary">
                 Send Another Message
               </button>

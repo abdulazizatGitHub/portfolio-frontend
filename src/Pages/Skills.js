@@ -2,6 +2,31 @@ import '../Assets/CSS/Skills.css';
 import React, { useEffect, useRef } from 'react';
 import useFadeOnScroll from '../hooks/useFadeOnScroll';
 
+// ===========================
+// SKILLS DATA CONFIG
+// ===========================
+
+const TECHNICAL_SKILLS = [
+  { name: 'Python', level: '95%' },
+  { name: 'JavaScript', level: '90%' },
+  { name: 'React.js', level: '92%' },
+  { name: 'Node.js & Express', level: '88%' },
+  { name: 'MongoDB', level: '85%' },
+  { name: 'SQL & PostgreSQL', level: '82%' },
+  { name: 'Java & C++', level: '78%' },
+  { name: 'Git & GitHub', level: '90%' },
+];
+
+const AI_SKILLS = [
+  { name: 'PyTorch & Deep Learning', level: '93%' },
+  { name: 'TensorFlow & Keras', level: '88%' },
+  { name: 'GANs & Computer Vision', level: '90%' },
+  { name: 'NLP & Transformers', level: '85%' },
+  { name: 'OpenCV & Image Processing', level: '87%' },
+  { name: 'Flask & FastAPI', level: '86%' },
+  { name: 'IoT Security & IDS', level: '88%' },
+];
+
 function Skills() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
@@ -65,77 +90,20 @@ function Skills() {
 
           <div className="skills-box">
             <div className={`skills-content ${techContentClass}`} ref={techContentRef}>
-              <div className="progress" ref={(el) => (progressRefs.current[0] = el)}>
-                <h3>
-                  Python <span>95%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
+              {TECHNICAL_SKILLS.map((skill, index) => (
+                <div
+                  className="progress"
+                  ref={(el) => (progressRefs.current[index] = el)}
+                  key={skill.name}
+                >
+                  <h3>
+                    {skill.name} <span>{skill.level}</span>
+                  </h3>
+                  <div className="bar">
+                    <span></span>
+                  </div>
                 </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[1] = el)}>
-                <h3>
-                  JavaScript <span>90%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[2] = el)}>
-                <h3>
-                  React.js <span>92%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[3] = el)}>
-                <h3>
-                  Node.js & Express <span>88%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[4] = el)}>
-                <h3>
-                  MongoDB <span>85%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[5] = el)}>
-                <h3>
-                  SQL & PostgreSQL <span>82%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[6] = el)}>
-                <h3>
-                  Java & C++ <span>78%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[7] = el)}>
-                <h3>
-                  Git & GitHub <span>90%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -147,68 +115,23 @@ function Skills() {
 
           <div className="skills-box">
             <div className={`skills-content ${aiContentClass}`} ref={aiContentRef}>
-              <div className="progress" ref={(el) => (progressRefs.current[8] = el)}>
-                <h3>
-                  PyTorch & Deep Learning <span>93%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[9] = el)}>
-                <h3>
-                  TensorFlow & Keras <span>88%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[10] = el)}>
-                <h3>
-                  GANs & Computer Vision <span>90%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[11] = el)}>
-                <h3>
-                  NLP & Transformers <span>85%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[12] = el)}>
-                <h3>
-                  OpenCV & Image Processing <span>87%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[13] = el)}>
-                <h3>
-                  Flask & FastAPI <span>86%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
-
-              <div className="progress" ref={(el) => (progressRefs.current[14] = el)}>
-                <h3>
-                  IoT Security & IDS <span>88%</span>
-                </h3>
-                <div className="bar">
-                  <span></span>
-                </div>
-              </div>
+              {AI_SKILLS.map((skill, index) => {
+                const refIndex = TECHNICAL_SKILLS.length + index;
+                return (
+                  <div
+                    className="progress"
+                    ref={(el) => (progressRefs.current[refIndex] = el)}
+                    key={skill.name}
+                  >
+                    <h3>
+                      {skill.name} <span>{skill.level}</span>
+                    </h3>
+                    <div className="bar">
+                      <span></span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -4,6 +4,41 @@ import ProfileImg from '../Assets/Images/MyImage.jpeg';
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import useFadeOnScroll from '../hooks/useFadeOnScroll';
 
+// ===========================
+// HOME PAGE CONTENT CONFIG
+// ===========================
+
+const HERO_CONTENT = {
+  name: 'Abdul Aziz',
+  titlePrefix: "Hi, I'm",
+  description:
+    "Passionate Software Engineer specializing in AI/ML, Deep Learning, and Full-Stack Development. Experienced in GAN-based intrusion detection systems, computer vision applications, and building scalable web solutions with MERN stack. Let's build something extraordinary together.",
+  cvFilePublicPath: '/My CV (Updated).pdf',
+  cvDownloadName: 'Abdul-Aziz-CV.pdf',
+};
+
+const HERO_ROLES = [
+  'AI/ML Engineer',
+  'Software Engineer',
+  'Full-Stack Developer',
+  'Frontend Developer',
+];
+
+const SOCIAL_LINKS = [
+  {
+    id: 'linkedin',
+    href: 'https://www.linkedin.com/in/abdulaziz-dev/',
+    ariaLabel: "Visit Abdul Aziz's LinkedIn profile (opens in new tab)",
+    icon: FaLinkedin,
+  },
+  {
+    id: 'github',
+    href: 'https://github.com/abdulazizatGitHub',
+    ariaLabel: "Visit Abdul Aziz's GitHub profile (opens in new tab)",
+    icon: FaGithub,
+  },
+];
+
 function Home() {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
@@ -15,11 +50,8 @@ function Home() {
 
   const [displayText, setDisplayText] = useState('');
 
-  // Fix: Use useMemo to memoize the roles array
-  const roles = useMemo(
-    () => ['AI/ML Engineer', 'Software Engineer', 'Full-Stack Developer', 'Frontend Developer'],
-    []
-  ); // Empty dependency array means this only gets created once
+  // Use useMemo to memoize the roles array (driven by HERO_ROLES config)
+  const roles = useMemo(() => HERO_ROLES, []);
 
   const [roleIndex, setRoleIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -51,11 +83,10 @@ function Home() {
 
   // Function to handle CV download
   const handleDownloadCV = () => {
-    // Correct path for files in public folder
-    const cvUrl = '/My CV (Updated).pdf';
+    const cvUrl = HERO_CONTENT.cvFilePublicPath;
     const link = document.createElement('a');
     link.href = cvUrl;
-    link.download = 'Abdul-Aziz-CV.pdf';
+    link.download = HERO_CONTENT.cvDownloadName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -79,7 +110,7 @@ function Home() {
       <div className="home-hero-container">
         <div className={`home-content ${contentClass}`} ref={contentRef}>
           <h1 className="hero-title">
-            Hi, I'm <span>Abdul Aziz</span>
+            {HERO_CONTENT.titlePrefix} <span>{HERO_CONTENT.name}</span>
           </h1>
           <div className="text-animate" aria-live="polite" aria-atomic="true">
             <h3 className="hero-subtitle">
@@ -89,12 +120,7 @@ function Home() {
               </span>
             </h3>
           </div>
-          <p className="hero-desc">
-            Passionate Software Engineer specializing in AI/ML, Deep Learning, and Full-Stack
-            Development. Experienced in GAN-based intrusion detection systems, computer vision
-            applications, and building scalable web solutions with MERN stack. Let's build something
-            extraordinary together.
-          </p>
+          <p className="hero-desc">{HERO_CONTENT.description}</p>
           <div className="btn-box" role="group" aria-label="Action buttons">
             <button
               onClick={handleDownloadCV}
@@ -112,24 +138,18 @@ function Home() {
             </button>
           </div>
           <div className="home-sci" role="list" aria-label="Social media links">
-            <a
-              href="https://www.linkedin.com/in/abdulaziz-dev/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Abdul Aziz's LinkedIn profile (opens in new tab)"
-              role="listitem"
-            >
-              <FaLinkedin aria-hidden="true" />
-            </a>
-            <a
-              href="https://github.com/abdulazizatGitHub"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Abdul Aziz's GitHub profile (opens in new tab)"
-              role="listitem"
-            >
-              <FaGithub aria-hidden="true" />
-            </a>
+            {SOCIAL_LINKS.map(({ id, href, ariaLabel, icon: Icon }) => (
+              <a
+                key={id}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={ariaLabel}
+                role="listitem"
+              >
+                <Icon aria-hidden="true" />
+              </a>
+            ))}
           </div>
         </div>
         <div className="home-image-container">

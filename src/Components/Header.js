@@ -4,6 +4,22 @@ import { FiMenu } from 'react-icons/fi';
 import { RxCross2 } from 'react-icons/rx';
 import '../Assets/CSS/Header.css';
 
+// ===========================
+// HEADER NAVIGATION CONFIG
+// ===========================
+
+const NAV_LINKS = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'education', label: 'Education' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Project' },
+  { id: 'contact', label: 'Contact' },
+];
+
+const LOGO_TEXT = 'Abdul Aziz.';
+const LOGO_ARIA_LABEL = 'Abdul Aziz - Go to home section';
+
 function Header() {
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,14 +70,8 @@ function Header() {
 
   return (
     <header className="header" role="banner">
-      <Link
-        to="home"
-        smooth={true}
-        duration={100}
-        className="logo"
-        aria-label="Abdul Aziz - Go to home section"
-      >
-        Abdul Aziz.
+      <Link to="home" smooth={true} duration={100} className="logo" aria-label={LOGO_ARIA_LABEL}>
+        {LOGO_TEXT}
         <span className="animate" aria-hidden="true"></span>
       </Link>
 
@@ -94,60 +104,18 @@ function Header() {
         role="navigation"
         aria-label="Main navigation"
       >
-        <Link
-          to="home"
-          smooth={true}
-          duration={100}
-          className={activeSection === 'home' ? 'a active' : 'a'}
-          aria-current={activeSection === 'home' ? 'page' : undefined}
-        >
-          Home
-        </Link>
-        <Link
-          to="about"
-          smooth={true}
-          duration={100}
-          className={activeSection === 'about' ? 'a active' : 'a'}
-          aria-current={activeSection === 'about' ? 'page' : undefined}
-        >
-          About
-        </Link>
-        <Link
-          to="education"
-          smooth={true}
-          duration={100}
-          className={activeSection === 'education' ? 'a active' : 'a'}
-          aria-current={activeSection === 'education' ? 'page' : undefined}
-        >
-          Education
-        </Link>
-        <Link
-          to="skills"
-          smooth={true}
-          duration={100}
-          className={activeSection === 'skills' ? 'a active' : 'a'}
-          aria-current={activeSection === 'skills' ? 'page' : undefined}
-        >
-          Skills
-        </Link>
-        <Link
-          to="projects"
-          smooth={true}
-          duration={100}
-          className={activeSection === 'projects' ? 'a active' : 'a'}
-          aria-current={activeSection === 'projects' ? 'page' : undefined}
-        >
-          Project
-        </Link>
-        <Link
-          to="contact"
-          smooth={true}
-          duration={100}
-          className={activeSection === 'contact' ? 'a active' : 'a'}
-          aria-current={activeSection === 'contact' ? 'page' : undefined}
-        >
-          Contact
-        </Link>
+        {NAV_LINKS.map((nav) => (
+          <Link
+            key={nav.id}
+            to={nav.id}
+            smooth={true}
+            duration={100}
+            className={activeSection === nav.id ? 'a active' : 'a'}
+            aria-current={activeSection === nav.id ? 'page' : undefined}
+          >
+            {nav.label}
+          </Link>
+        ))}
 
         <span className="active-nav" aria-hidden="true"></span>
         <span className="animate" style={{ '--i': 3 }} aria-hidden="true"></span>

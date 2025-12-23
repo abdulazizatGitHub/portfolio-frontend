@@ -3,6 +3,52 @@ import { FaCalendarAlt, FaBriefcase } from 'react-icons/fa';
 import React, { useEffect, useRef, useState } from 'react';
 import useFadeOnScroll from '../hooks/useFadeOnScroll';
 
+// ===============================
+// EDUCATION & EXPERIENCE DATA
+// ===============================
+
+const EDUCATION_ENTRIES = [
+  {
+    period: '2017 - 2019',
+    title: 'Matriculation (Science) - FG Public School Batkhela',
+    description:
+      'Completed secondary education with excellent grades (1009/1100), building a strong foundation in science subjects that sparked my interest in technology and innovation.',
+  },
+  {
+    period: '2019 - 2021',
+    title: 'Intermediate (Pre-Engineering) - Islamia College Peshawar',
+    description:
+      'Pursued Pre-Engineering with marks of 814/1100. Served as Monitor of Osmania Hostel and member of the Management Team, developing leadership and teamwork skills.',
+  },
+  {
+    period: '2021 - 2025',
+    title: 'Bachelor of Science in Software Engineering - COMSATS University',
+    description:
+      'Graduated with CGPA 3.52/4.00 from COMSATS University Islamabad, Abbottabad Campus. Specialized in AI/ML, Deep Learning, and Full-Stack Development with groundbreaking research on GAN-based intrusion detection systems.',
+  },
+];
+
+const EXPERIENCE_ENTRIES = [
+  {
+    period: 'Oct 2025 - Present',
+    title: 'Frontend Developer - Inara Technologies Pvt. Limited',
+    description:
+      'Designing responsive dashboards and admin panels with focus on usability and performance. Collaborating with backend teams to integrate RESTful APIs for seamless user experiences.',
+  },
+  {
+    period: 'Aug 2025 - Oct 2025',
+    title: 'AI/ML Intern - Omnisolve AI (Remote)',
+    description:
+      'Contributed to Virtual Try-On E-commerce System using CP-VTON for realistic clothing simulation. Built personalized AI shopbot for intelligent, context-aware product recommendations.',
+  },
+  {
+    period: 'Sept 2024 - June 2025',
+    title: 'Research Project - IoT Intrusion Detection using GANs',
+    description:
+      'Designed Dynamic Class-Weighted GAN (DCSW-GAN) to address class imbalance in IoT intrusion detection. Achieved improved minority-class recall on UNSW-NB15 and CICIDS-2017 datasets.',
+  },
+];
+
 function Education() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
@@ -16,12 +62,12 @@ function Education() {
   const eduTitleClass = useFadeOnScroll(eduTitleRef, 0.3);
   const expTitleClass = useFadeOnScroll(expTitleRef, 0.3);
 
-  const [eduCardVis, setEduCardVis] = useState([false, false, false]);
-  const [expCardVis, setExpCardVis] = useState([false, false, false]);
+  const [eduCardVis, setEduCardVis] = useState(Array(EDUCATION_ENTRIES.length).fill(false));
+  const [expCardVis, setExpCardVis] = useState(Array(EXPERIENCE_ENTRIES.length).fill(false));
 
   useEffect(() => {
-    eduCardsRef.current = eduCardsRef.current.slice(0, 3);
-    expCardsRef.current = expCardsRef.current.slice(0, 3);
+    eduCardsRef.current = eduCardsRef.current.slice(0, EDUCATION_ENTRIES.length);
+    expCardsRef.current = expCardsRef.current.slice(0, EXPERIENCE_ENTRIES.length);
 
     const eduObservers = eduCardsRef.current.map((ref, idx) => {
       if (!ref) return null;
@@ -78,54 +124,21 @@ function Education() {
             Education
           </h3>
           <div className="education-box">
-            <div
-              className={`education-content ${eduCardVis[0] ? 'fade-in' : 'fade-out'}`}
-              ref={(el) => (eduCardsRef.current[0] = el)}
-            >
-              <div className="content">
-                <div className="year">
-                  <FaCalendarAlt className="calender" /> 2017 - 2019
+            {EDUCATION_ENTRIES.map((entry, index) => (
+              <div
+                key={entry.title}
+                className={`education-content ${eduCardVis[index] ? 'fade-in' : 'fade-out'}`}
+                ref={(el) => (eduCardsRef.current[index] = el)}
+              >
+                <div className="content">
+                  <div className="year">
+                    <FaCalendarAlt className="calender" /> {entry.period}
+                  </div>
+                  <h3>{entry.title}</h3>
+                  <p>{entry.description}</p>
                 </div>
-                <h3>Matriculation (Science) - FG Public School Batkhela</h3>
-                <p>
-                  Completed secondary education with excellent grades (1009/1100), building a strong
-                  foundation in science subjects that sparked my interest in technology and
-                  innovation.
-                </p>
               </div>
-            </div>
-            <div
-              className={`education-content ${eduCardVis[1] ? 'fade-in' : 'fade-out'}`}
-              ref={(el) => (eduCardsRef.current[1] = el)}
-            >
-              <div className="content">
-                <div className="year">
-                  <FaCalendarAlt className="calender" /> 2019 - 2021
-                </div>
-                <h3>Intermediate (Pre-Engineering) - Islamia College Peshawar</h3>
-                <p>
-                  Pursued Pre-Engineering with marks of 814/1100. Served as Monitor of Osmania
-                  Hostel and member of the Management Team, developing leadership and teamwork
-                  skills.
-                </p>
-              </div>
-            </div>
-            <div
-              className={`education-content ${eduCardVis[2] ? 'fade-in' : 'fade-out'}`}
-              ref={(el) => (eduCardsRef.current[2] = el)}
-            >
-              <div className="content">
-                <div className="year">
-                  <FaCalendarAlt className="calender" /> 2021 - 2025
-                </div>
-                <h3>Bachelor of Science in Software Engineering - COMSATS University</h3>
-                <p>
-                  Graduated with CGPA 3.52/4.00 from COMSATS University Islamabad, Abbottabad
-                  Campus. Specialized in AI/ML, Deep Learning, and Full-Stack Development with
-                  groundbreaking research on GAN-based intrusion detection systems.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
         <div className="education-column">
@@ -133,54 +146,21 @@ function Education() {
             Experience
           </h3>
           <div className="education-box">
-            <div
-              className={`education-content ${expCardVis[0] ? 'fade-in' : 'fade-out'}`}
-              ref={(el) => (expCardsRef.current[0] = el)}
-            >
-              <div className="content">
-                <div className="year">
-                  <FaBriefcase className="calender" /> Oct 2025 - Present
+            {EXPERIENCE_ENTRIES.map((entry, index) => (
+              <div
+                key={entry.title}
+                className={`education-content ${expCardVis[index] ? 'fade-in' : 'fade-out'}`}
+                ref={(el) => (expCardsRef.current[index] = el)}
+              >
+                <div className="content">
+                  <div className="year">
+                    <FaBriefcase className="calender" /> {entry.period}
+                  </div>
+                  <h3>{entry.title}</h3>
+                  <p>{entry.description}</p>
                 </div>
-                <h3>Frontend Developer - Inara Technologies Pvt. Limited</h3>
-                <p>
-                  Designing responsive dashboards and admin panels with focus on usability and
-                  performance. Collaborating with backend teams to integrate RESTful APIs for
-                  seamless user experiences.
-                </p>
               </div>
-            </div>
-            <div
-              className={`education-content ${expCardVis[1] ? 'fade-in' : 'fade-out'}`}
-              ref={(el) => (expCardsRef.current[1] = el)}
-            >
-              <div className="content">
-                <div className="year">
-                  <FaBriefcase className="calender" /> Aug 2025 - Oct 2025
-                </div>
-                <h3>AI/ML Intern - Omnisolve AI (Remote)</h3>
-                <p>
-                  Contributed to Virtual Try-On E-commerce System using CP-VTON for realistic
-                  clothing simulation. Built personalized AI shopbot for intelligent, context-aware
-                  product recommendations.
-                </p>
-              </div>
-            </div>
-            <div
-              className={`education-content ${expCardVis[2] ? 'fade-in' : 'fade-out'}`}
-              ref={(el) => (expCardsRef.current[2] = el)}
-            >
-              <div className="content">
-                <div className="year">
-                  <FaBriefcase className="calender" /> Sept 2024 - June 2025
-                </div>
-                <h3>Research Project - IoT Intrusion Detection using GANs</h3>
-                <p>
-                  Designed Dynamic Class-Weighted GAN (DCSW-GAN) to address class imbalance in IoT
-                  intrusion detection. Achieved improved minority-class recall on UNSW-NB15 and
-                  CICIDS-2017 datasets.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

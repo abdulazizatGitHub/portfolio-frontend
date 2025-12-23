@@ -3,6 +3,16 @@ import '../Assets/CSS/Footer.css';
 import { BiUpArrowAlt } from 'react-icons/bi';
 import React from 'react';
 
+// ===========================
+// FOOTER CONTENT CONFIG
+// ===========================
+
+const FOOTER_CONTENT = {
+  year: '2023',
+  owner: 'Abdul Aziz',
+  textSuffix: '| All Rights Reserved.',
+};
+
 /**
  * Footer Component
  * Displays copyright information and scroll-to-top button
@@ -14,7 +24,10 @@ function Footer() {
   return (
     <footer className="footer" role="contentinfo">
       <div className="footer-text">
-        <p>Copyright &copy; 2023 by Abdul Aziz | All Rights Reserved.</p>
+        <p>
+          Copyright &copy; {FOOTER_CONTENT.year} by {FOOTER_CONTENT.owner}{' '}
+          {FOOTER_CONTENT.textSuffix}
+        </p>
       </div>
 
       <div className="footer-iconTop">
