@@ -24,8 +24,8 @@ Thank you for your interest in contributing! This document provides guidelines a
 1. **Fork the repository**
 
    ```bash
-   git clone https://github.com/abdulazizatGitHub/MyPortfolio.git
-   cd MyPortfolio
+   git clone https://github.com/abdulazizatGitHub/portfolio-frontend.git
+   cd portfolio-frontend
    ```
 
 2. **Install dependencies**

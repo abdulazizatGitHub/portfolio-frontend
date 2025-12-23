@@ -46,7 +46,7 @@ jobs:
         run: npm run test:ci
       
       - name: Quality check passed
-        run: echo "✅ All quality checks passed!"
+        run: echo "All quality checks passed!"
 
   # Job 2: Security Audit
   security-audit:
@@ -73,7 +73,7 @@ jobs:
         continue-on-error: true
       
       - name: Security audit completed
-        run: echo "✅ Security audit completed!"
+        run: echo "Security audit completed!"
 
   # Job 3: Build Verification
   build-verification:
@@ -102,8 +102,8 @@ jobs:
       - name: Build size check
         run: |
           BUILD_SIZE=$(du -sh build | cut -f1)
-          echo "📦 Build size: $BUILD_SIZE"
-          echo "✅ Build verification passed!"
+          echo "Build size: $BUILD_SIZE"
+          echo "Build verification passed!"
 
   # Job 4: Docker Build & Push
   docker-pipeline:
@@ -152,9 +152,9 @@ jobs:
       
       - name: Docker image info
         run: |
-          echo "✅ Docker image built and pushed!"
-          echo "📦 Image: ghcr.io/${{ github.repository }}:latest"
-          echo "🏷️  Tags: ${{ steps.meta.outputs.tags }}"
+          echo "Docker image built and pushed!"
+          echo "Image: ghcr.io/${{ github.repository }}:latest"
+          echo "Tags: ${{ steps.meta.outputs.tags }}"
 
   # Job 5: Deployment Summary
   deployment-summary:
@@ -166,7 +166,7 @@ jobs:
     steps:
       - name: Deployment status
         run: |
-          echo "## 🚀 Deployment Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Deployment Pipeline Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
@@ -175,24 +175,24 @@ jobs:
           echo "| Build Verification | ${{ needs.build-verification.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Docker Build | ${{ needs.docker-pipeline.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📦 Docker Image" >> $GITHUB_STEP_SUMMARY
+          echo "### Docker Image" >> $GITHUB_STEP_SUMMARY
           echo "Image: \`ghcr.io/${{ github.repository }}:latest\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🌐 Vercel Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "### Vercel Deployment" >> $GITHUB_STEP_SUMMARY
           echo "URL: https://abdulaziz-eta.vercel.app/" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ All checks completed! Vercel will deploy automatically." >> $GITHUB_STEP_SUMMARY
+          echo " All checks completed! Vercel will deploy automatically." >> $GITHUB_STEP_SUMMARY
       
       - name: Final status
         run: |
           if [ "${{ needs.quality-check.result }}" == "success" ] && \
              [ "${{ needs.security-audit.result }}" == "success" ] && \
              [ "${{ needs.build-verification.result }}" == "success" ]; then
-            echo "✅ Pipeline completed successfully!"
-            echo "🚀 Ready for Vercel deployment"
+            echo " Pipeline completed successfully!"
+            echo " Ready for Vercel deployment"
             exit 0
           else
-            echo "❌ Pipeline failed. Check individual jobs for details."
+            echo " Pipeline failed. Check individual jobs for details."
             exit 1
           fi
 

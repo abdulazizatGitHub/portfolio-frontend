@@ -74,17 +74,17 @@ GitHub Actions Triggered
 **Status**: ✅ Automated Build & Push
 
 - **Registry**: GitHub Container Registry (GHCR)
-- **Image**: `ghcr.io/abdulazizatGitHub/MyPortfolio:latest`
+- **Image**: `ghcr.io/abdulazizatgithub/portfolio-frontend:latest`
 - **Trigger**: Push to `main` branch (after CI passes)
 
 **Pull and Run**:
 
 ```bash
 # Pull image
-docker pull ghcr.io/abdulazizatGitHub/MyPortfolio:latest
+docker pull ghcr.io/abdulazizatgithub/portfolio-frontend:latest
 
 # Run container
-docker run -p 3000:80 ghcr.io/abdulazizatGitHub/MyPortfolio:latest
+docker run -p 3000:80 ghcr.io/abdulazizatgithub/portfolio-frontend:latest
 ```
 
 **Deploy to Cloud Platforms**:
@@ -94,7 +94,7 @@ docker run -p 3000:80 ghcr.io/abdulazizatGitHub/MyPortfolio:latest
 ```bash
 # Push to AWS ECR
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
-docker tag ghcr.io/abdulazizatGitHub/MyPortfolio:latest <account>.dkr.ecr.us-east-1.amazonaws.com/portfolio:latest
+docker tag ghcr.io/abdulazizatgithub/portfolio-frontend:latest <account>.dkr.ecr.us-east-1.amazonaws.com/portfolio:latest
 docker push <account>.dkr.ecr.us-east-1.amazonaws.com/portfolio:latest
 ```
 
@@ -102,7 +102,7 @@ docker push <account>.dkr.ecr.us-east-1.amazonaws.com/portfolio:latest
 
 ```bash
 # Tag for GCR
-docker tag ghcr.io/abdulazizatGitHub/MyPortfolio:latest gcr.io/<project-id>/portfolio:latest
+docker tag ghcr.io/abdulazizatgithub/portfolio-frontend:latest gcr.io/<project-id>/portfolio:latest
 
 # Push to GCR
 docker push gcr.io/<project-id>/portfolio:latest
@@ -115,7 +115,7 @@ gcloud run deploy portfolio --image gcr.io/<project-id>/portfolio:latest --platf
 
 ```bash
 # Tag for ACR
-docker tag ghcr.io/abdulazizatGitHub/MyPortfolio:latest <registry>.azurecr.io/portfolio:latest
+docker tag ghcr.io/abdulazizatgithub/portfolio-frontend:latest <registry>.azurecr.io/portfolio:latest
 
 # Push to ACR
 docker push <registry>.azurecr.io/portfolio:latest
@@ -153,9 +153,9 @@ vercel --prod
 
 Check pipeline status:
 
-1. **GitHub Actions**: [Actions Tab](https://github.com/abdulazizatGitHub/MyPortfolio/actions)
+1. **GitHub Actions**: [Actions Tab](https://github.com/abdulazizatGitHub/portfolio-frontend/actions)
 2. **Vercel Dashboard**: [Vercel Dashboard](https://vercel.com/dashboard)
-3. **Docker Images**: [GHCR Packages](https://github.com/abdulazizatGitHub/MyPortfolio/pkgs/container/myportfolio)
+3. **Docker Images**: [GHCR Packages](https://github.com/abdulazizatGitHub/portfolio-frontend/pkgs/container/portfolio-frontend)
 
 ## 🔍 Monitoring
 

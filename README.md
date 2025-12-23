@@ -47,8 +47,8 @@ The portfolio is automatically deployed on Vercel and updates on every push to t
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/abdulazizatGitHub/MyPortfolio.git
-cd MyPortfolio
+git clone https://github.com/abdulazizatGitHub/portfolio-frontend.git
+cd portfolio-frontend
 ```
 
 2. Install dependencies:
@@ -151,7 +151,7 @@ The build folder will contain the production-ready files.
 ## 📁 Complete Project Structure
 
 ```
-MyPortfolio/
+portfolio-frontend/
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml              # Pre-deployment CI/CD pipeline
@@ -360,9 +360,9 @@ The complete CI/CD pipeline runs automatically on every push to `main`:
 
 Docker images are automatically pushed to GitHub Container Registry:
 
-- **Registry**: `ghcr.io/abdulazizatGitHub/MyPortfolio`
+- **Registry**: `ghcr.io/abdulazizatgithub/portfolio-frontend`
 - **Tags**: `latest`, `main`, `main-<sha>`
-- **Pull command**: `docker pull ghcr.io/abdulazizatGitHub/MyPortfolio:latest`
+- **Pull command**: `docker pull ghcr.io/abdulazizatgithub/portfolio-frontend:latest`
 
 ## 🚢 Deployment
 
