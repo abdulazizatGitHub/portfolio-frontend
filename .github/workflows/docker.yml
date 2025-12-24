@@ -1,14 +1,11 @@
 name: Docker Build and Push
 
-# This workflow builds Docker image and pushes to GitHub Container Registry
-# Runs on every push to main branch after CI checks pass
-
 on:
   workflow_run:
     workflows: ["Pre-Deployment CI/CD Pipeline"]
-    types:
-      - completed
+    types: [completed]
     branches: [ main ]
+
   push:
     branches: [ main ]
     paths:
@@ -18,17 +15,25 @@ on:
       - 'src/**'
       - 'package.json'
       - '.github/workflows/docker.yml'
-  workflow_dispatch: # Allow manual trigger
+
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+
+    env:
+      IMAGE_NAME: ""   # 👈 declared for static analyzers
+
+    if: >
+      github.event.workflow_run.conclusion == 'success' ||
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch'
+
     permissions:
       contents: read
       packages: write
@@ -36,6 +41,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Normalize image name (lowercase)
+        run: |
+          echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -47,7 +56,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -55,8 +64,6 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
             type=sha,prefix={{branch}}-
             type=raw,value=latest,enable={{is_default_branch}}
 
@@ -73,25 +80,26 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
 
-      - name: Docker image info
-        run: |
-          echo "Docker image built and pushed successfully!"
-          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
-          echo "Tags: ${{ steps.meta.outputs.tags }}"
-          echo "Digest: ${{ steps.build.outputs.digest }}"
-          echo ""
-          echo "To pull the image:"
-          echo "docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
-
   test-docker:
     name: Test Docker Image
     runs-on: ubuntu-latest
     needs: build-and-push
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+
+    env:
+      IMAGE_NAME: ""  
+
+    if: >
+      github.event.workflow_run.conclusion == 'success' ||
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Normalize image name
+        run: |
+          echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -106,28 +114,32 @@ jobs:
 
       - name: Test Docker container
         run: |
-          echo "Starting container..."
-          docker run -d --name portfolio-test -p 8080:80 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          set -euo pipefail
           
-          echo "Waiting for container to be ready..."
+          # Cleanup function to ensure container is always removed
+          cleanup() {
+            echo "Cleaning up container..."
+            docker stop portfolio-test 2>/dev/null || true
+            docker rm portfolio-test 2>/dev/null || true
+          }
+          
+          # Register cleanup trap to run on script exit (success or failure)
+          trap cleanup EXIT
+          
+          # Run Docker container locally in GitHub Actions runner
+          # Note: This tests the Docker image, not the Vercel deployment
+          # Vercel deployment is separate and happens automatically after CI passes
+          docker run -d --name portfolio-test -p 8080:80 \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
           sleep 5
           
+          # Test health endpoint (container running locally on runner)
           echo "Testing health endpoint..."
           curl -f http://localhost:8080/health || exit 1
           
+          # Test main page (container running locally on runner)
           echo "Testing main page..."
           curl -f http://localhost:8080/ || exit 1
           
           echo "Docker container test passed!"
-          
-          echo "Cleaning up..."
-          docker stop portfolio-test
-          docker rm portfolio-test
-
-      - name: Container test results
-        run: |
-          echo "Docker image is working correctly!"
-          echo "Health check endpoint: PASSED"
-          echo "Main page: PASSED"
-          echo "Container starts and serves content: PASSED"
-
