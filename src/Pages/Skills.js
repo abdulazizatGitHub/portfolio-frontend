@@ -6,26 +6,10 @@ import useFadeOnScroll from '../hooks/useFadeOnScroll';
 // SKILLS DATA CONFIG
 // ===========================
 
-const TECHNICAL_SKILLS = [
-  { name: 'Python', level: '95%' },
-  { name: 'JavaScript', level: '90%' },
-  { name: 'React.js', level: '92%' },
-  { name: 'Node.js & Express', level: '88%' },
-  { name: 'MongoDB', level: '85%' },
-  { name: 'SQL & PostgreSQL', level: '82%' },
-  { name: 'Java & C++', level: '78%' },
-  { name: 'Git & GitHub', level: '90%' },
-];
+import { SKILLS_CONTENT as MOCK_SKILLS } from '../data/mockData';
 
-const AI_SKILLS = [
-  { name: 'PyTorch & Deep Learning', level: '93%' },
-  { name: 'TensorFlow & Keras', level: '88%' },
-  { name: 'GANs & Computer Vision', level: '90%' },
-  { name: 'NLP & Transformers', level: '85%' },
-  { name: 'OpenCV & Image Processing', level: '87%' },
-  { name: 'Flask & FastAPI', level: '86%' },
-  { name: 'IoT Security & IDS', level: '88%' },
-];
+const TECHNICAL_SKILLS = MOCK_SKILLS.technical;
+const AI_SKILLS = MOCK_SKILLS.ai;
 
 function Skills() {
   const sectionRef = useRef(null);

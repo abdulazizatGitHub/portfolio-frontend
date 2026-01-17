@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa';
 import '../Assets/CSS/Contact.css';
 import useFadeOnScroll from '../hooks/useFadeOnScroll';
+import { CONTACT_INFO_ITEMS as MOCK_CONTACT, SOCIAL_LINKS as MOCK_SOCIAL } from '../data/mockData';
 
 // ===========================
 // CONTACT PAGE CONTENT CONFIG
@@ -26,42 +27,15 @@ const CONTACT_TEXT = {
   successMessage: "Your message has been sent successfully. I'll get back to you soon!",
 };
 
-const CONTACT_INFO_ITEMS = [
-  {
-    id: 'email',
-    icon: FaEnvelope,
-    label: 'Email',
-    value: 'abdulazizk1430@gmail.com',
-    href: 'mailto:abdulazizk1430@gmail.com',
-  },
-  {
-    id: 'phone',
-    icon: FaPhone,
-    label: 'Phone',
-    value: '+92 341 6988051',
-    href: 'tel:+923416988051',
-  },
-  {
-    id: 'location',
-    icon: FaMapMarkerAlt,
-    label: 'Location',
-    value: 'G15 Islamabad, Pakistan',
-    href: null,
-  },
-];
+const CONTACT_INFO_ITEMS = MOCK_CONTACT.map((item) => ({
+  ...item,
+  icon: item.id === 'email' ? FaEnvelope : item.id === 'phone' ? FaPhone : FaMapMarkerAlt,
+}));
 
-const SOCIAL_LINKS = [
-  {
-    id: 'linkedin',
-    icon: FaLinkedin,
-    href: 'https://www.linkedin.com/in/abdulaziz-dev/',
-  },
-  {
-    id: 'github',
-    icon: FaGithub,
-    href: 'https://github.com/abdulazizatGitHub',
-  },
-];
+const SOCIAL_LINKS = MOCK_SOCIAL.map((item) => ({
+  ...item,
+  icon: item.id === 'linkedin' ? FaLinkedin : FaGithub,
+}));
 
 function Contact() {
   const sectionRef = useRef(null);

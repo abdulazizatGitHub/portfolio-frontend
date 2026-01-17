@@ -3,26 +3,14 @@ import '../Assets/CSS/About.css';
 import React, { useRef } from 'react';
 import useFadeOnScroll from '../hooks/useFadeOnScroll';
 
-// ===========================
-// ABOUT PAGE CONTENT CONFIG
-// ===========================
+import { ABOUT_CONTENT as MOCK_ABOUT_CONTENT } from '../data/mockData';
 
 const ABOUT_CONTENT = {
+  ...MOCK_ABOUT_CONTENT,
   heading: {
     prefix: 'About',
     highlight: 'Me',
   },
-  roleTitle: 'AI/ML Engineer & Full-Stack Developer',
-  paragraphs: [
-    "I'm a passionate Software Engineer with expertise in Artificial Intelligence, Machine Learning, and Full-Stack Web Development. Currently working as a Frontend Developer at Inara Technologies, I bring a unique blend of AI/ML knowledge and web development skills.",
-    'My journey includes groundbreaking research on GAN-based intrusion detection systems for IoT networks, developing computer vision applications like Virtual Try-On systems, and building scalable web solutions using the MERN stack. I am proficient in Python, PyTorch, TensorFlow, and modern web technologies.',
-    "With a CGPA of 3.52 from COMSATS University and hands-on experience in AI/ML projects, I'm dedicated to creating innovative solutions that make a real impact. Let's collaborate and build the future together!",
-  ],
-  stats: [
-    { label: 'CGPA', value: '3.52' },
-    { label: 'Projects', value: '10+' },
-    { label: 'Experience', value: '2+' },
-  ],
 };
 
 function About() {

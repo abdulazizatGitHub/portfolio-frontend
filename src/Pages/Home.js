@@ -4,40 +4,16 @@ import ProfileImg from '../Assets/Images/MyImage.jpeg';
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import useFadeOnScroll from '../hooks/useFadeOnScroll';
 
-// ===========================
-// HOME PAGE CONTENT CONFIG
-// ===========================
+import { PERSONAL_CONTENT, SOCIAL_LINKS as MOCK_SOCIAL_LINKS } from '../data/mockData';
 
-const HERO_CONTENT = {
-  name: 'Abdul Aziz',
-  titlePrefix: "Hi, I'm",
-  description:
-    "Passionate Software Engineer specializing in AI/ML, Deep Learning, and Full-Stack Development. Experienced in GAN-based intrusion detection systems, computer vision applications, and building scalable web solutions with MERN stack. Let's build something extraordinary together.",
-  cvFilePublicPath: '/My CV (Updated).pdf',
-  cvDownloadName: 'Abdul-Aziz-CV.pdf',
-};
+const HERO_CONTENT = PERSONAL_CONTENT;
+const HERO_ROLES = PERSONAL_CONTENT.roles;
 
-const HERO_ROLES = [
-  'AI/ML Engineer',
-  'Software Engineer',
-  'Full-Stack Developer',
-  'Frontend Developer',
-];
-
-const SOCIAL_LINKS = [
-  {
-    id: 'linkedin',
-    href: 'https://www.linkedin.com/in/abdulaziz-dev/',
-    ariaLabel: "Visit Abdul Aziz's LinkedIn profile (opens in new tab)",
-    icon: FaLinkedin,
-  },
-  {
-    id: 'github',
-    href: 'https://github.com/abdulazizatGitHub',
-    ariaLabel: "Visit Abdul Aziz's GitHub profile (opens in new tab)",
-    icon: FaGithub,
-  },
-];
+const SOCIAL_LINKS = MOCK_SOCIAL_LINKS.map((link) => ({
+  ...link,
+  ariaLabel: `Visit Abdul Aziz's ${link.label} profile (opens in new tab)`,
+  icon: link.id === 'linkedin' ? FaLinkedin : FaGithub,
+}));
 
 function Home() {
   const sectionRef = useRef(null);

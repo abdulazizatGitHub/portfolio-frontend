@@ -7,47 +7,13 @@ import useFadeOnScroll from '../hooks/useFadeOnScroll';
 // EDUCATION & EXPERIENCE DATA
 // ===============================
 
-const EDUCATION_ENTRIES = [
-  {
-    period: '2017 - 2019',
-    title: 'Matriculation (Science) - FG Public School Batkhela',
-    description:
-      'Completed secondary education with excellent grades (1009/1100), building a strong foundation in science subjects that sparked my interest in technology and innovation.',
-  },
-  {
-    period: '2019 - 2021',
-    title: 'Intermediate (Pre-Engineering) - Islamia College Peshawar',
-    description:
-      'Pursued Pre-Engineering with marks of 814/1100. Served as Monitor of Osmania Hostel and member of the Management Team, developing leadership and teamwork skills.',
-  },
-  {
-    period: '2021 - 2025',
-    title: 'Bachelor of Science in Software Engineering - COMSATS University',
-    description:
-      'Graduated with CGPA 3.52/4.00 from COMSATS University Islamabad, Abbottabad Campus. Specialized in AI/ML, Deep Learning, and Full-Stack Development with groundbreaking research on GAN-based intrusion detection systems.',
-  },
-];
+import {
+  EDUCATION_ENTRIES as MOCK_EDUCATION,
+  EXPERIENCE_ENTRIES as MOCK_EXPERIENCE,
+} from '../data/mockData';
 
-const EXPERIENCE_ENTRIES = [
-  {
-    period: 'Oct 2025 - Present',
-    title: 'Frontend Developer - Inara Technologies Pvt. Limited',
-    description:
-      'Designing responsive dashboards and admin panels with focus on usability and performance. Collaborating with backend teams to integrate RESTful APIs for seamless user experiences.',
-  },
-  {
-    period: 'Aug 2025 - Oct 2025',
-    title: 'AI/ML Intern - Omnisolve AI (Remote)',
-    description:
-      'Contributed to Virtual Try-On E-commerce System using CP-VTON for realistic clothing simulation. Built personalized AI shopbot for intelligent, context-aware product recommendations.',
-  },
-  {
-    period: 'Sept 2024 - June 2025',
-    title: 'Research Project - IoT Intrusion Detection using GANs',
-    description:
-      'Designed Dynamic Class-Weighted GAN (DCSW-GAN) to address class imbalance in IoT intrusion detection. Achieved improved minority-class recall on UNSW-NB15 and CICIDS-2017 datasets.',
-  },
-];
+const EDUCATION_ENTRIES = MOCK_EDUCATION;
+const EXPERIENCE_ENTRIES = MOCK_EXPERIENCE;
 
 function Education() {
   const sectionRef = useRef(null);
